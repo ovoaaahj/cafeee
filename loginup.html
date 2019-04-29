@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+<meta charset="uft-8">
+
+<title> MY parse App</title>
+<meta name="description" content="My parse App">
+<meta name="viewport" content="width=device-width">
+<meta charset="utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+</head>
+
+<body>
+<div id="login">
+  <p> id : <input type="text" id="id"> </p>
+  <p> pw : <input type="text" id="password"> </p>
+  <p> email :<input type="text" id="email"> </P>
+  <input type ="button" value="SIGNUP" onclick="signup()">
+</div>
+<script type="text/javascript">
+Parse.initialize("simhyeonjeong");
+Parse.serverURL="https://hyeonjeong.herokuapp.com/parse";
+
+function signup(){
+  var id =$("#id").val();
+  var password=$("#password").val();
+  var email =$("#email").val();
+  var user=new Parse.User();
+
+  if(Parse.User.current()){
+    Parse.User.logOut();
+  }
+  if(id && password && email){
+    user.set("username",id);
+    user.set("password",password);
+    user.set("email",email);
+
+    user.signUp()
+    .then((user)=>{
+      alert("SignUp Success");
+      window.location="loginin.html"
+    },(error)=>{
+      alert("SignUp Error : "+error.message);
+    });
+  }
+  else{
+    alert("wrong data");
+  }
+}
+</script>
+</body>
+</html>

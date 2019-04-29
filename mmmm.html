@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title> MY parse App</title>
+  <meta name="description" content="My parse App">
+  <meta name="viewport" content="width=device-width">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+
+  <script>
+
+  Parse.initialize("simhyeonjeong");
+  Parse.serverURL="https://hyeonjeong.herokuapp.com/parse";
+
+  var coffeepr=3000;
+  var adepr=3000;
+  var shakepr=3500;
+  var lattepr=3500;
+  var price1=0;
+  var price2=0;
+  var price3=0;
+  var price4=0;
+  var price5=0;
+
+
+
+function  check(){
+var size =$(":input:radio[name=size]:checked").val()
+var coffee =$(":input:radio[name=coffee]:checked").val()
+var ade =$(":input:radio[name=ade]:checked").val()
+var shake =$(":input:radio[name=shake]:checked").val()
+var latte =$(":input:radio[name=latte]:checked").val()
+
+        var MENU=Parse.Object.extend("MENU");
+        var menu = new MENU();
+        var query = new Parse.Query(MENU);
+
+        query.fullText("username", Parse.User.current().get("username"));
+        menu.set("username",Parse.User.current().get("username"))
+        menu.set("size",size)
+        menu.set("coffee",coffee)
+        menu.set("ade",ade)
+        menu.set("shake",shake)
+        menu.set("latte",latte)
+        menu.save()
+        alert(Parse.User.current().get("username")+"님\n"+"사이즈 :"+size+"\n"+"주문하신제품 : " + coffee +" ," +ade +" ,"+ shake +" ,"+ latte);
+
+        if(coffee=="아메리카노"||"에스프레소"||"카페라떼"||"카페모카"||"카라멜마끼아또"||"바닐라라떼")
+        {
+          price1=+coffeepr
+        }
+        if(coffee==null)
+        {
+          price1=0;
+        }
+
+
+
+        if(ade=="자몽에이드"||"레몬에이드"||"딸기에이드"||"청포도에이드")
+        {
+          price2=+adepr;
+        }
+        if(ade==null)
+        {
+          price2=0;
+        }
+
+
+
+        if(shake=="초코쉐이크"||"딸기쉐이크"||"초코쿠키쉐이크"||"바나나쉐이크")
+        {
+          price3=+shakepr;
+        }
+        if(shake==null)
+        {
+          price3=0;
+        }
+
+
+
+        if(latte=="초코라떼"||"고구마라떼"||"녹차라떼"||"오곡라떼")
+        {
+          price4=+lattepr;
+        }
+        if(latte==null)
+        {
+          price4=0;
+        }
+
+
+
+        price5=price1+price2+price3+price4
+
+    menu.set("price",price5)
+    menu.save()
+    alert("결제금액 :"+price5);
+window.location="loginin.html";
+
+};
+
+
+
+
+
+  function logout(){
+    Parse.User.logOut();
+    window.location="loginin.html";
+  }
+
+</script>
+
+</head>
+
+
+<body>
+
+  <form action='"https://hyeonjeong.herokuapp.com/parse'>
+  <h2>원하시는 음료와 사이즈를 골라주세요</h2>
+ <fieldset>
+   <legend>Size</legend>
+  <input type="radio"  name="size" value="Large"/>Large
+  <input type="radio"  name="size" value="Medium"/>Medium
+   </fieldset>
+
+  <fieldset>
+    <legend>Choice</legend>
+    <img src ="coffee.jpg" width="75px" height="75px" alt= "커피"/><br>
+    <p><input type="radio" name="coffee"  value="에스프레소"/>에스프레소
+    <input type="radio" name="coffee"  value="아메리카노"/>아메리카노
+    <input type="radio" name="coffee"  value="카페라떼"/>카페라떼
+    <input type="radio" name="coffee"  value="카페모카"/>카페모카
+    <input type="radio" name="coffee"  value="캬라멜마끼아또"/>캬라멜마끼아또
+    <input type="radio" name="coffee"  value="바닐라라떼"/>바닐라라떼</p>
+
+
+    <img src="aeee.jpg" width="75px" height="75px" alt="에이드"/><br>
+    <p><input type="radio" name="ade"  value="자몽에이드"/>자몽에이드
+    <input type="radio" name="ade"  value="레몬에이드"/>레몬에이드
+    <input type="radio" name="ade"  value="딸기에이드"/>딸기에이드
+    <input type="radio" name="ade"  value="청포도에이드"/>청포도에이드</p>
+
+    <img src="shake.jpg" width="75px" height="75px" alt="쉐이크"><br>
+    <p><input type="radio" name="shake" value="초코쉐이크"/>초코쉐이크
+    <input type="radio" name="shake" value="딸기쉐이크"/>딸기쉐이크
+    <input type="radio" name="shake" value="바나나쉐이크"/>바나나쉐이크
+    <input type="radio" name="shake" value="초코쿠키쉐이크"/>초코쿠키쉐이크</p>
+
+    <img src="latte.jpg" width="75px" height="75px" alt="라때"><br>
+    <p><input type="radio" name="latte" value="초코라떼"/>초코라떼
+    <input type="radio" name="latte" value="고구마라떼"/>고구마라떼
+    <input type="radio" name="latte" value="녹차라떼"/>녹차라떼
+    <input type="radio" name="latte" value="오곡라떼"/>오곡라떼</p>
+
+</fieldset>
+
+   <input type="button" value="SAVE" onclick="check()">
+   <input type="button" value="LOGOUT" onclick="logout()">
+    </form>
+</body>
+<html>

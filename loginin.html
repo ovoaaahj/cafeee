@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+<meta charset="uft-8">
+
+<title> MY parse App</title>
+<meta name="description" content="My parse App">
+<meta name="viewport" content="width=device-width">
+<meta charset ="utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+</head>
+
+<body>
+   <div id="login">
+    <input type="text", id="id">
+    <input type="password", id="password">
+    <input type="button", value="LOGIN" onclick="login()">
+    <input type="button", value="SIGNUP" onclick="signup()">
+</div>
+<script type="text/javascript">
+    Parse.initialize("simhyeonjeong");
+    Parse.serverURL="https://hyeonjeong.herokuapp.com/parse";
+
+  function signup(){
+    window.location="loginup.html";
+  }
+  function login(){
+    var id=$("#id").val();
+    var password=$("#password").val();
+
+    Parse.User.logIn(id,password)
+    .then((user)=>{
+      alert("안녕하세요"+user.get("username")+"님");
+      window.location="mmmm.html";
+    }, (error)=>{
+      alert("login error :"+error.message);
+      $("#password").val("");
+    });
+  }
+
+</script>
+</body>
+</html>
